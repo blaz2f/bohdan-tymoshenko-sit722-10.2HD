@@ -42,7 +42,7 @@ variable "codecommit_repo_name" {
 variable "codecommit_repo_branch_name" {
   description = "t223306781sit722week10 codecommit repo branch name"
   type        = string
-  default     = "main"
+  default     = "master"
 }
 variable "ecr_repo_name" {
   description = "t223306781sit722week10 ecr repo name"

@@ -52,34 +52,6 @@ resource "aws_codepipeline" "t223306781sit722week10_codepipeline" {
     }
   }
 
-  stage {
-    name = "Test"
-
-    action {
-      name             = "Test"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      version          = "1"
-      input_artifacts  = ["source_output"]
-      output_artifacts = ["test_output"]
-      configuration = {
-        ProjectName = aws_codebuild_project.t223306781sit722week10_codebuild_test_project.name
-      }
-    }
-    action {
-      name             = "Lint"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      version          = "1"
-      input_artifacts  = ["source_output"]
-      output_artifacts = ["lint_output"]
-      configuration = {
-        ProjectName = aws_codebuild_project.t223306781sit722week10_codebuild_lint_project.name
-      }
-    }
-  }
 
   stage {
     name = "Build"
