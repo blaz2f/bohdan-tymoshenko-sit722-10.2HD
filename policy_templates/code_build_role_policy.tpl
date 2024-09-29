@@ -4,7 +4,7 @@
         {
             "Effect": "Allow",
             "Resource": [
-                "arn:aws:logs:${region}:${account_id}:log-group:/aws/demo-codebuild-projects",
+                "arn:aws:logs:${region}:${account_id}:log-group:/aws/t223306781sit722week10-codebuild-projects",
                 "arn:aws:logs:${region}:${account_id}:log-group:codebuild-*-log-group:*",
                 "arn:aws:logs:${region}:${account_id}:log-group:codebuild-log-group:*"
             ],
@@ -33,7 +33,7 @@
                 "codebuild:BatchPutCodeCoverages"
             ],
             "Resource": [
-                "arn:aws:codebuild:${region}:${account_id}:report-group/demo-codebuild-projects-*"
+                "arn:aws:codebuild:${region}:${account_id}:report-group/t223306781sit722week10-codebuild-projects-*"
             ]
         },
         {

@@ -66,6 +66,7 @@ resource "aws_codepipeline" "t223306781sit722week10_codepipeline" {
       output_artifacts = ["build_output"]
       configuration = {
         ProjectName = aws_codebuild_project.t223306781sit722week10_codebuild_project.name
+        BatchEnabled = "true"
       }
     }
   }
@@ -83,6 +84,7 @@ resource "aws_codepipeline" "t223306781sit722week10_codepipeline" {
       output_artifacts = ["deploy_output"]
       configuration = {
         ProjectName = aws_codebuild_project.t223306781sit722week10_codebuild_deploy_project.name
+        BatchEnabled = "true"
       }
     }
   }

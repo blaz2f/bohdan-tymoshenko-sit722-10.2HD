@@ -3,50 +3,40 @@ version: 0.2
 batch:
   fast-fail: false
   build-list:
-    - identifier: aws-storage
+    - identifier: awsstorage
+      buildspec: build.yml
       env:
         variables:
-          APP_NAME: aws-storage
+          APP_NAME: awsstorage
       ignore-failure: false
     - identifier: gateway
+      buildspec: build.yml
       env:
         variables:
           APP_NAME: gateway
       ignore-failure: false
     - identifier: history
+      buildspec: build.yml
       env:
         variables:
           APP_NAME: history
       ignore-failure: false
     - identifier: metadata
+      buildspec: build.yml
       env:
         variables:
           APP_NAME: metadata
       ignore-failure: false
-    - identifier: video-streaming
+    - identifier: videostreaming
+      buildspec: build.yml
       env:
         variables:
-          APP_NAME: video-streaming
+          APP_NAME: videostreaming
       ignore-failure: false
-    - identifier: video-upload
+    - identifier: videoupload
+      buildspec: build.yml
       env:
         variables:
-          APP_NAME: video-upload
+          APP_NAME: videoupload
       ignore-failure: false
 
-phases:
-  pre_build:
-    commands:
-      - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-  build:
-    commands:
-      - echo Build started on `date`
-      - echo Building the Docker image $APP_NAME...          
-      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG ./$APP_NAME/Dockerfile-prod ./$APP_NAME
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-  post_build:
-    commands:
-      - echo Build completed on `date`
-      - echo Pushing the Docker image ...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG

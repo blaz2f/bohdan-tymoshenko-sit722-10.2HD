@@ -29,6 +29,9 @@ resource "aws_codebuild_project" "t223306781sit722week10_codebuild_project" {
   description   = "t223306781sit722week10 build project"
   build_timeout = "5"
   service_role  = aws_iam_role.codebuild_role.arn
+  build_batch_config {
+    service_role  = aws_iam_role.codebuild_role.arn
+  }
 
   artifacts {
     type = var.source_type
@@ -92,6 +95,9 @@ resource "aws_codebuild_project" "t223306781sit722week10_codebuild_deploy_projec
   description   = "t223306781sit722week10 codebuild deploy project"
   build_timeout = "5"
   service_role  = aws_iam_role.codebuild_role.arn
+  build_batch_config {
+    service_role  = aws_iam_role.codebuild_role.arn
+  }
 
   artifacts {
     type = var.source_type

@@ -1,0 +1,140 @@
+version: 0.2
+
+batch:
+  fast-fail: false
+  build-list:
+    - identifier: login
+      ignore-failure: false
+      buildspec: |
+        version: 0.2
+        env:
+          shell: bash
+        phases:
+          build:
+            commands:
+              - echo Logging in to Amazon ECR...
+              - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+
+    - identifier: aws
+      env:
+        variables:
+          APP_NAME: aws-storage
+      ignore-failure: false
+      buildspec: |
+        version: 0.2
+        env:
+          shell: bash
+        phases:
+          build:
+            commands:
+              - echo Building the Docker image $APP_NAME...          
+              - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
+              - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+          post_build:
+            commands:
+              - echo Pushing the Docker image $APP_NAME...
+              - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+
+    - identifier: gateway
+      env:
+        variables:
+          APP_NAME: gateway
+      ignore-failure: false
+      buildspec: |
+        version: 0.2
+        env:
+          shell: bash
+        phases:
+          build:
+            commands:
+              - echo Building the Docker image $APP_NAME...          
+              - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
+              - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+          post_build:
+            commands:
+              - echo Pushing the Docker image $APP_NAME...
+              - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+
+    - identifier: history
+      env:
+        variables:
+          APP_NAME: history
+      ignore-failure: false
+      buildspec: |
+        version: 0.2
+        env:
+          shell: bash
+        phases:
+          build:
+            commands:
+              - echo Building the Docker image $APP_NAME...          
+              - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
+              - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+          post_build:
+            commands:
+              - echo Pushing the Docker image $APP_NAME...
+              - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+
+    - identifier: metadata
+      env:
+        variables:
+          APP_NAME: metadata
+      ignore-failure: false
+      buildspec: |
+        version: 0.2
+        env:
+          shell: bash
+        phases:
+          build:
+            commands:
+              - echo Building the Docker image $APP_NAME...          
+              - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
+              - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+          post_build:
+            commands:
+              - echo Pushing the Docker image $APP_NAME...
+              - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+
+    - identifier: streaming
+      env:
+        variables:
+          APP_NAME: video-streaming
+      ignore-failure: false
+      buildspec: |
+        version: 0.2
+        env:
+          shell: bash
+        phases:
+          build:
+            commands:
+              - echo Building the Docker image $APP_NAME...          
+              - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
+              - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+          post_build:
+            commands:
+              - echo Pushing the Docker image $APP_NAME...
+              - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+
+    - identifier: upload
+      env:
+        variables:
+          APP_NAME: video-upload
+      ignore-failure: false
+      buildspec: |
+        version: 0.2
+        env:
+          shell: bash
+        phases:
+          build:
+            commands:
+              - echo Building the Docker image $APP_NAME...          
+              - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
+              - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+          post_build:
+            commands:
+              - echo Pushing the Docker image $APP_NAME...
+              - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+
+
+
+
