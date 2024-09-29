@@ -1,0 +1,19 @@
+replicaCount: 1
+
+image:
+  repository: AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-2.amazonaws.com/t223306781sit722week10-ecr-repo
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+storage:
+  folder: videos
+  region: ap-southeast-2
+  name: video-storage-ap-southeast-2
+  key: AWS_ACCESS_KEY_ID
+  secret: AWS_SECRET_ACCESS_KEY
+
+
+service:
+  port: 80
+  targetPort: 4000

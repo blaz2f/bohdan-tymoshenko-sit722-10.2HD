@@ -1,0 +1,46 @@
+#
+# To deploy:
+#
+# kubectl apply -f scripts/deploy.yaml
+#
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: video-upload
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: video-upload
+  template:
+    metadata:
+      labels:
+        app: video-upload
+    spec:
+      containers: 
+      - name: video-upload
+        image: $CONTAINER_REGISTRY/video-upload:$VERSION
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PORT
+          value: "4000"
+        - name: RABBIT
+          value: amqp://test:test@rabbit:5672
+        - name: STORAGE_ACCOUNT_NAME
+          value: ${STORAGE_ACCOUNT_NAME}
+        - name: STORAGE_ACCESS_KEY
+          value: ${STORAGE_ACCESS_KEY}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: video-upload
+spec:
+  selector:
+    app: video-upload
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4000

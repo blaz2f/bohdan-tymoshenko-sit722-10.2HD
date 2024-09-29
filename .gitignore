@@ -1,0 +1,8 @@
+node_modules/
+todo.txt
+*.bak
+mock-storage/storage
+*.terraform
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
