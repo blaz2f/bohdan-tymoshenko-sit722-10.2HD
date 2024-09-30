@@ -1,0 +1,26 @@
+{{- range .Values.services }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}
+spec:
+  type: {{ .service.type }}
+  {{ if eq .name "rabbit" }}
+  ports:
+    - name: http
+      port: 5672
+      protocol: TCP
+    - name: dashboard
+      port: 15672
+      protocol: TCP
+  {{ else }}
+  ports:
+    - port: {{ .service.port }}
+      targetPort: {{ .service.targetPort }}
+      protocol: TCP
+  {{ end }}
+  selector:
+    app.kubernetes.io/name: {{ .name }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+{{- end }}

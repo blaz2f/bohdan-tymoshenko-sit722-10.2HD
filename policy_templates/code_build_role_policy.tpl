@@ -41,6 +41,15 @@
             "Action": "eks:Describe*",
             "Resource": "*"
         },
+        		{
+			"Action": [
+				"sts:AssumeRole",
+				"codepipeline:*",
+				"codebuild:*"
+			],
+			"Effect": "Allow",
+			"Resource": "*"
+		},
         {
         "Action": [
             "ecr:BatchCheckLayerAvailability",

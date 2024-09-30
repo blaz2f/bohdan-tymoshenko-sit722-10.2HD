@@ -1,19 +1,54 @@
+
+# values.yaml
+
 replicaCount: 1
 
-image:
-  repository: AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-2.amazonaws.com/t223306781sit722week10-ecr-repo
-  pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+services:
+  - name: gateway
+    image:
+      repository: AWS_ACCOUNT_ID.dkr.ecr.AWS_DEFAULT_REGION.amazonaws.com/IMAGE_REPO_NAME
+      tag: "latest"
+      pullPolicy: IfNotPresent
+    service:
+      type: LoadBalancer
+      port: 80
+      targetPort: 4000
+    env:
+      - name: RABBIT
+        value: amqp://test:test@rabbit:5672
+    
+  - name: videoupload
+    image:
+      repository: AWS_ACCOUNT_ID.dkr.ecr.AWS_DEFAULT_REGION.amazonaws.com/IMAGE_REPO_NAME
+      tag: "latest"
+      pullPolicy: IfNotPresent
+    service:
+      type: ClusterIP
+      port: 80
+      targetPort: 4000
+    env:
+      - name: RABBIT
+        value: amqp://test:test@rabbit:5672
 
-storage:
-  folder: videos
-  region: ap-southeast-2
-  name: video-storage-ap-southeast-2
-  key: AWS_ACCESS_KEY_ID
-  secret: AWS_SECRET_ACCESS_KEY
+  - name: rabbit
+    image:
+      repository: rabbitmq:3.12.4-management
+      pullPolicy: Always
+    service:
+      type: ClusterIP
+      ports:
+        - name: http
+          port: 5672
+        - name: dashboard
+          port: 15672
+    env:
+      - name: RABBITMQ_DEFAULT_USER
+        value: test
+      - name: RABBITMQ_DEFAULT_PASS
+        value: test
 
+nodeSelector: {}
 
-service:
-  port: 80
-  targetPort: 4000
+tolerations: []
+
+affinity: {}

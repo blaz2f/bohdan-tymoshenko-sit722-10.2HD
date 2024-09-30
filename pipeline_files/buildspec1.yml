@@ -11,18 +11,29 @@ batch:
         version: 0.2
         env:
           shell: bash
+        artifacts:
+          files: "output/$APP_NAME/**/*"
+          name: $APP_NAME-output
+          discard-paths: no
         phases:
           pre_build:
             commands:
+              - sleep 2
               - echo Logging in to Amazon ECR...
               - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           build:
             commands:
+              - sleep 2
+              - mkdir -p output/$APP_NAME
               - echo Building the Docker image $APP_NAME...          
               - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
               - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+              - echo "$APP_NAME data" > output/$APP_NAME/$APP_NAME.txt
+              - echo "$APP_NAME completed successfully."
+              - ls -R output
           post_build:
             commands:
+              - sleep 2
               - echo Pushing the Docker image $APP_NAME...
               - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       ignore-failure: false
@@ -30,22 +41,35 @@ batch:
       env:
         variables:
           APP_NAME: gateway
+      dependsOn:
+        - awsstorage
       buildspec: |
         version: 0.2
         env:
           shell: bash
+        artifacts:
+          files: "output/$APP_NAME/**/*"
+          name: $APP_NAME-output
+          discard-paths: no
         phases:
           pre_build:
             commands:
+              - sleep 7
               - echo Logging in to Amazon ECR...
               - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           build:
             commands:
+              - sleep 7
+              - mkdir -p output/$APP_NAME
               - echo Building the Docker image $APP_NAME...          
               - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
               - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+              - echo "$APP_NAME data" > output/$APP_NAME/$APP_NAME.txt
+              - echo "$APP_NAME completed successfully."
+              - ls -R output
           post_build:
             commands:
+              - sleep 7
               - echo Pushing the Docker image $APP_NAME...
               - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       ignore-failure: false
@@ -53,22 +77,35 @@ batch:
       env:
         variables:
           APP_NAME: history
+      dependsOn:
+        - gateway
       buildspec: |
         version: 0.2
         env:
           shell: bash
+        artifacts:
+          files: "output/$APP_NAME/**/*"
+          name: $APP_NAME-output
+          discard-paths: no
         phases:
           pre_build:
             commands:
+              - sleep 13
               - echo Logging in to Amazon ECR...
               - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           build:
             commands:
+              - sleep 13
+              - mkdir -p output/$APP_NAME
               - echo Building the Docker image $APP_NAME...          
               - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
               - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+              - echo "$APP_NAME data" > output/$APP_NAME/$APP_NAME.txt
+              - echo "$APP_NAME completed successfully."
+              - ls -R output
           post_build:
             commands:
+              - sleep 13
               - echo Pushing the Docker image $APP_NAME...
               - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       ignore-failure: false
@@ -76,22 +113,35 @@ batch:
       env:
         variables:
           APP_NAME: metadata
+      dependsOn:
+        - history
       buildspec: |
         version: 0.2
         env:
           shell: bash
+        artifacts:
+          files: "output/$APP_NAME/**/*"
+          name: $APP_NAME-output
+          discard-paths: no
         phases:
           pre_build:
             commands:
+              - sleep 24
               - echo Logging in to Amazon ECR...
               - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           build:
             commands:
+              - sleep 24
+              - mkdir -p output/$APP_NAME
               - echo Building the Docker image $APP_NAME...          
               - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
               - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+              - echo "$APP_NAME data" > output/$APP_NAME/$APP_NAME.txt
+              - echo "$APP_NAME completed successfully."
+              - ls -R output
           post_build:
             commands:
+              - sleep 24
               - echo Pushing the Docker image $APP_NAME...
               - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       ignore-failure: false
@@ -99,45 +149,78 @@ batch:
       env:
         variables:
           APP_NAME: videostreaming
+      dependsOn:
+        - metadata
       ignore-failure: false
       buildspec: |
         version: 0.2
         env:
           shell: bash
+        artifacts:
+          files: "output/$APP_NAME/**/*"
+          name: $APP_NAME-output
+          discard-paths: no
         phases:
           pre_build:
             commands:
+              - sleep 35
               - echo Logging in to Amazon ECR...
               - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           build:
             commands:
+              - sleep 35
+              - mkdir -p output/$APP_NAME
               - echo Building the Docker image $APP_NAME...          
               - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
               - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+              - echo "$APP_NAME data" > output/$APP_NAME/$APP_NAME.txt
+              - echo "$APP_NAME completed successfully."
+              - ls -R output
           post_build:
             commands:
+              - sleep 35
               - echo Pushing the Docker image $APP_NAME...
               - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
     - identifier: videoupload
       env:
         variables:
           APP_NAME: videoupload
+      dependsOn:
+        - videostreaming
       buildspec: |
         version: 0.2
         env:
           shell: bash
+        artifacts:
+          files: "output/$APP_NAME/**/*"
+          name: $APP_NAME-output
+          discard-paths: no
         phases:
           pre_build:
             commands:
+              - sleep 46
               - echo Logging in to Amazon ECR...
               - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           build:
             commands:
+              - sleep 46
+              - mkdir -p output/$APP_NAME
               - echo Building the Docker image $APP_NAME...          
               - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
               - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+              - echo "$APP_NAME data" > output/$APP_NAME/$APP_NAME.txt
+              - echo "$APP_NAME completed successfully."
+              - ls -R output
           post_build:
             commands:
-              - echo Pushing the Docker image $APP_NAME...
+              - sleep 46
+              - echo Pushing the Docker image $APP_NAME ...
               - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       ignore-failure: false
+
+  artifacts:
+  files:
+    - "**/*"
+  name: combined-artifact.zip
+  discard-paths: yes
+  type: zip

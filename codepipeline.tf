@@ -63,7 +63,7 @@ resource "aws_codepipeline" "t223306781sit722week10_codepipeline" {
       provider         = "CodeBuild"
       version          = "1"
       input_artifacts  = ["source_output"]
-      output_artifacts = ["build_output"]
+      #output_artifacts = ["combined-artifact"] #["awsstorage","gateway","history","metadata","videostreaming"] 
       configuration = {
         ProjectName = aws_codebuild_project.t223306781sit722week10_codebuild_project.name
         BatchEnabled = "true"
@@ -81,10 +81,10 @@ resource "aws_codepipeline" "t223306781sit722week10_codepipeline" {
       provider         = "CodeBuild"
       version          = "1"
       input_artifacts  = ["source_output"]
-      output_artifacts = ["deploy_output"]
+      #output_artifacts = ["deploy_output"]
       configuration = {
         ProjectName = aws_codebuild_project.t223306781sit722week10_codebuild_deploy_project.name
-        BatchEnabled = "true"
+
       }
     }
   }
