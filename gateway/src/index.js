@@ -79,7 +79,7 @@ async function main() {
 
         const response = await axios({ // Forwards the request to the video-streaming microservice.
             method: "GET",
-            url: `http://video-streaming/video?id=${req.query.id}`, 
+            url: `http://videostreaming/video?id=${req.query.id}`, 
             data: req, 
             responseType: "stream",
         });
@@ -93,7 +93,7 @@ async function main() {
 
         const response = await axios({ // Forwards the request to the video-upload microservice.
             method: "POST",
-            url: "http://video-upload/upload", 
+            url: "http://videoupload/upload", 
             data: req, 
             responseType: "stream",
             headers: {

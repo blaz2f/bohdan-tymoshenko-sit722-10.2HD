@@ -42,7 +42,7 @@ async function main() {
         console.log('hello world');
         const response = await axios({ // Forwards the request to the video-storage microservice.
             method: "GET",
-            url: `http://video-storage/video?id=${videoId}`, 
+            url: `http://awsstorage/video?id=${videoId}`, 
             data: req, 
             responseType: "stream",
         });

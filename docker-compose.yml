@@ -42,7 +42,7 @@ services:
     image: gateway
     build: 
       context: ./gateway
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile-prod
     container_name: gateway
     volumes:
       - /tmp/gateway/npm-cache:/root/.npm:z
@@ -58,15 +58,15 @@ services:
       - rabbit
     restart: "no"
 
-  video-streaming:
-    image: video-streaming
+  videostreaming:
+    image: videostreaming
     build: 
-      context: ./video-streaming
-      dockerfile: Dockerfile-dev
-    container_name: video-streaming
+      context: ./videostreaming
+      dockerfile: Dockerfile-prod
+    container_name: videostreaming
     volumes:
-      - /tmp/video-streaming/npm-cache:/root/.npm:z
-      - ./video-streaming/src:/usr/src/app/src:z
+      - /tmp/videostreaming/npm-cache:/root/.npm:z
+      - ./videostreaming/src:/usr/src/app/src:z
     ports:
       - "4001:80"
     environment:
@@ -78,16 +78,16 @@ services:
       - rabbit
     restart: "no"
 
-  video-upload:
-    image: video-upload
+  videoupload:
+    image: videoupload
     build: 
-      context: ./video-upload
-      dockerfile: Dockerfile-dev
-    container_name: video-upload
+      context: ./videoupload
+      dockerfile: Dockerfile-prod
+    container_name: videoupload
     volumes:
-      - /tmp/video-upload/npm-cache:/root/.npm:z
-      - ./video-upload/src:/usr/src/app/src:z
-      - ./video-upload/uploads:/usr/src/app/uploads:z
+      - /tmp/videoupload/npm-cache:/root/.npm:z
+      - ./videoupload/src:/usr/src/app/src:z
+      - ./videoupload/uploads:/usr/src/app/uploads:z
     ports:
      - "4004:80"
     environment:
@@ -102,7 +102,7 @@ services:
     image: history
     build: 
       context: ./history
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile-prod
     container_name: history
     volumes:
       - /tmp/history/npm-cache:/root/.npm:z
@@ -120,15 +120,15 @@ services:
       - rabbit
     restart: "no"
   
-  video-storage:
-    image: aws-storage
+  awsstorage:
+    image: awsstorage
     build: 
-        context: ./aws-storage
-        dockerfile: Dockerfile-dev
-    container_name: video-storage
+        context: ./awsstorage
+        dockerfile: Dockerfile-prod
+    container_name: awsstorage
     volumes:
-        - /tmp/aws-storage/npm-cache:/root/.npm:z
-        - ./aws-storage/src:/usr/src/app/src:z
+        - /tmp/awsstorage/npm-cache:/root/.npm:z
+        - ./awsstorage/src:/usr/src/app/src:z
     ports:
         - "4005:80"
     environment:
@@ -144,7 +144,7 @@ services:
     image: metadata
     build: 
       context: ./metadata
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile-prod
     container_name: metadata
     volumes:
       - /tmp/metadata/npm-cache:/root/.npm:z

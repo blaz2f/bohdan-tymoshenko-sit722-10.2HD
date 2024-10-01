@@ -51,7 +51,7 @@ async function main() {
         //console.log(rfileseq)
         const response = await axios({ // Forwards the request to the video-storate microservice.
             method: "POST",
-            url: "http://video-storage/upload", 
+            url: "http://awsstorage/upload", 
             data: req, 
             responseType: "stream",
             headers: {

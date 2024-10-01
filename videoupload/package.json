@@ -16,7 +16,6 @@
     "express": "^5.0.0-beta.1",
     "mongodb": "^6.0.0",
     "express-fileupload": "^1.5.1",
-    "body-parser":"1.20.3",
     "wait-port": "^0.2.6"
   },
   "devDependencies": {

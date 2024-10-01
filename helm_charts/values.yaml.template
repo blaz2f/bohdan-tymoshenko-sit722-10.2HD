@@ -1,0 +1,155 @@
+# values.yaml
+
+replicaCount: 1
+
+imagePullSecrets:
+  - name: ecr-secret
+
+awsCredentials:
+  name: aws-credentials
+
+services:
+  - name: rabbit
+    image:
+      repository: bitnami/rabbitmq
+      tag: 3.9.13-debian-10-r0
+      pullPolicy: IfNotPresent
+    service:
+      type: LoadBalancer
+      port: 5672
+      managementPort: 15672
+    auth:
+      username: test
+      password: test
+    env:
+      - name: RABBITMQ_DEFAULT_USER
+        value: test
+      - name: RABBITMQ_DEFAULT_PASS
+        value: test
+
+  - name: mongodb
+    image:
+      repository: bitnami/mongodb
+      tag: latest
+      pullPolicy: IfNotPresent
+    service:
+      type: ClusterIP
+      port: 27017
+    auth:
+      username: mongo_user
+      password: mongo_password
+      database: history
+
+  - name: gateway
+    image:
+      repository: "${CONTAINER_REPO_URI}"
+      tag: "gateway"
+      pullPolicy: IfNotPresent
+    service:
+      type: LoadBalancer
+      port: 80
+      targetPort: 4000
+    env:
+      - name: RABBIT
+        value: amqp://test:test@rabbit:5672
+      - name: PORT
+        value: "4000"
+
+  - name: videostreaming
+    image:
+      repository: "${CONTAINER_REPO_URI}"
+      tag: "videostreaming"
+      pullPolicy: IfNotPresent
+    service:
+      type: ClusterIP
+      port: 80
+      targetPort: 4000
+    env:
+      - name: RABBIT
+        value: amqp://test:test@rabbit:5672
+      - name: PORT
+        value: "4000" 
+
+  - name: videoupload
+    image:
+      repository: "${CONTAINER_REPO_URI}"
+      tag: "videoupload"
+      pullPolicy: IfNotPresent
+    service:
+      type: ClusterIP
+      port: 80
+      targetPort: 4000
+    env:
+      - name: RABBIT
+        value: amqp://test:test@rabbit:5672
+      - name: PORT
+        value: "4000"
+  
+  - name: history
+    image:
+      repository: "${CONTAINER_REPO_URI}"
+      tag: "history"
+      pullPolicy: IfNotPresent
+    service:
+      type: ClusterIP
+      port: 80
+      targetPort: 4000
+    env:
+      - name: RABBIT
+        value: amqp://test:test@rabbit:5672
+      - name: DBHOST
+        value: mongodb://mongodb:27017
+      - name: DBNAME
+        value: history
+      - name: PORT
+        value: "4000"
+
+  - name: metadata
+    image:
+      repository: "${CONTAINER_REPO_URI}"
+      tag: "metadata"
+      pullPolicy: IfNotPresent
+    service:
+      type: ClusterIP
+      port: 80
+      targetPort: 4000
+    env:
+      - name: RABBIT
+        value: amqp://test:test@rabbit:5672
+      - name: RABBITMQ_HOST
+      - name: DBHOST
+        value: mongodb://mongodb:27017
+      - name: DBNAME
+        value: metadata
+      - name: PORT
+        value: "4000"
+
+  - name: awsstorage
+    image:
+      repository: "${CONTAINER_REPO_URI}"
+      tag: "awsstorage"
+      pullPolicy: IfNotPresent
+    service:
+      type: ClusterIP
+      port: 80
+      targetPort: 4000
+    env:
+      - name: PORT
+        value: "4000"
+      - name: AWS_ACCESS_KEY_ID
+        value: ${AWS_ACCESS_KEY_ID}
+      - name: AWS_SECRET_ACCESS_KEY
+        value: ${AWS_SECRET_ACCESS_KEY}
+      - name: STORAGE_NAME
+        value: ${STORAGE_NAME}
+      - name: STORAGE_FOLDER_NAME
+        value: ${STORAGE_FOLDER_NAME}
+      - name: STORAGE_REGION
+        value: ${STORAGE_REGION}
+        
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

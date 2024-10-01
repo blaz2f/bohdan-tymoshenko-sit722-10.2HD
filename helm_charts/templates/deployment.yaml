@@ -20,14 +20,36 @@ spec:
         - name: {{ .name }}
           image: "{{ .image.repository }}:{{ .image.tag }}"
           imagePullPolicy: {{ .image.pullPolicy }}
+          {{ if eq .name "rabbit" }}
+          ports:
+            - containerPort: {{ .service.port }} 
+              name: amqp
+            - containerPort: {{ .service.managementPort }}
+              name: management
+          env:
+            - name: RABBITMQ_USERNAME
+              value: "{{ .auth.username }}"
+            - name: RABBITMQ_PASSWORD
+              value: "{{ .auth.password }}"
+          {{ else if eq .name "mongodb" }}
+          ports:
+            - containerPort: {{ .service.port }}
+              name: mongodb
+          env:
+            - name: MONGODB_ROOT_USERNAME
+              value: "{{ .auth.username }}"
+            - name: MONGODB_ROOT_PASSWORD
+              value: "{{ .auth.password }}"
+            - name: MONGODB_DATABASE
+              value: "{{ .auth.database }}"
+          {{ else }}
+          ports:
+            - containerPort: {{ .service.targetPort }}
           env:
             {{- range .env }}
             - name: {{ .name }}
               value: "{{ .value }}"
             {{- end }}
-          {{ if .service.targetPort }}
-          ports:
-            - containerPort: {{ .service.targetPort }}
           {{ end }}
       nodeSelector:
         {{- toYaml $.Values.nodeSelector | nindent 8 }}
