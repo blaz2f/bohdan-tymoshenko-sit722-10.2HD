@@ -132,7 +132,6 @@ services:
     ports:
         - "4005:80"
     environment:
-        - PORT=80
         - STORAGE_REGION=${STORAGE_REGION}
         - STORAGE_NAME=${STORAGE_NAME}
         - STORAGE_ACCESS_KEY=${STORAGE_ACCESS_KEY}

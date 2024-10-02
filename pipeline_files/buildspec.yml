@@ -20,8 +20,8 @@ batch:
             commands:
               - sleep 5
               - echo Building the Docker image $APP_NAME...          
-              - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
-              - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
+              - docker build -t $IMAGE_REPO_NAME:$APP_NAME --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
+              - docker tag $IMAGE_REPO_NAME:$APP_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
               - echo "$APP_NAME data" > $APP_NAME.txt
               - echo "$APP_NAME completed successfully."
           post_build:
@@ -29,6 +29,7 @@ batch:
               - sleep 5
               - echo Pushing the Docker image $APP_NAME...
               - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
+      ignore-failure: false
     - identifier: videostreaming
       env:
         variables:
@@ -41,15 +42,15 @@ batch:
         phases:
           pre_build:
             commands:
-              - sleep 30
+              - sleep 180
               - echo Logging in to Amazon ECR...
               - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           build:
             commands:
               - sleep 5
               - echo Building the Docker image $APP_NAME...          
-              - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
-              - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
+              - docker build -t $IMAGE_REPO_NAME:$APP_NAME --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
+              - docker tag $IMAGE_REPO_NAME:$APP_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
               - echo "$APP_NAME data" > $APP_NAME.txt
               - echo "$APP_NAME completed successfully."
           post_build:
@@ -57,6 +58,7 @@ batch:
               - sleep 5
               - echo Pushing the Docker image $APP_NAME...
               - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
+      ignore-failure: false
     - identifier: videoupload
       env:
         variables:
@@ -69,15 +71,15 @@ batch:
         phases:
           pre_build:
             commands:
-              - sleep 60
+              - sleep 360
               - echo Logging in to Amazon ECR...
               - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           build:
             commands:
               - sleep 5
               - echo Building the Docker image $APP_NAME...          
-              - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
-              - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
+              - docker build -t $IMAGE_REPO_NAME:$APP_NAME --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
+              - docker tag $IMAGE_REPO_NAME:$APP_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
               - echo "$APP_NAME data" > $APP_NAME.txt
               - echo "$APP_NAME completed successfully."
           post_build:
@@ -98,15 +100,15 @@ batch:
         phases:
           pre_build:
             commands:
-              - sleep 90
+              - sleep 540
               - echo Logging in to Amazon ECR...
               - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           build:
             commands:
               - sleep 5
               - echo Building the Docker image $APP_NAME...          
-              - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
-              - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
+              - docker build -t $IMAGE_REPO_NAME:$APP_NAME --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
+              - docker tag $IMAGE_REPO_NAME:$APP_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
               - echo "$APP_NAME data" > $APP_NAME.txt
               - echo "$APP_NAME completed successfully."
           post_build:
@@ -127,15 +129,15 @@ batch:
         phases:
           pre_build:
             commands:
-              - sleep 120
+              - sleep 720
               - echo Logging in to Amazon ECR...
               - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           build:
             commands:
               - sleep 5
               - echo Building the Docker image $APP_NAME...          
-              - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
-              - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
+              - docker build -t $IMAGE_REPO_NAME:$APP_NAME --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
+              - docker tag $IMAGE_REPO_NAME:$APP_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
               - echo "$APP_NAME data" > $APP_NAME.txt
               - echo "$APP_NAME completed successfully."
           post_build:
@@ -156,21 +158,21 @@ batch:
         phases:
           pre_build:
             commands:
-              - sleep 150
+              - sleep 900
               - echo Logging in to Amazon ECR ...
               - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           build:
             commands:
               - sleep 5
               - echo Building the Docker image $APP_NAME...          
-              - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
-              - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
+              - docker build -t $IMAGE_REPO_NAME:$APP_NAME --file ./$APP_NAME/Dockerfile-prod ./$APP_NAME
+              - docker tag $IMAGE_REPO_NAME:$APP_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
               - echo "$APP_NAME data" > $APP_NAME.txt
               - echo "$APP_NAME completed successfully."
           post_build:
             commands:
               - sleep 5
-              - echo Pushing the Docker image $APP_NAME...
+              - echo Pushing the Docker image $APP_NAME ...
               - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$APP_NAME
       ignore-failure: false
 

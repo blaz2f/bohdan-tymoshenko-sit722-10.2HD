@@ -56,15 +56,15 @@ resource "aws_codebuild_project" "t223306781sit722week10_codebuild_project" {
       value = local.region
     }
 
-    #environment_variable {
-    #  name  = "AWS_DEFAULT_REGION"
-    #  value = "video-storage-${local.region}"
-    #}
+    environment_variable {
+      name  = "STORAGE_NAME"
+      value = "video-storage-${local.region}"
+    }
 
-    #environment_variable {
-    #  name  = "STORAGE_FOLDER"
-    #  value = "videos"
-    #}
+    environment_variable {
+      name  = "STORAGE_FOLDER_NAME"
+      value = "videos"
+    }
 
     environment_variable {
       name  = "AWS_ACCOUNT_ID"
@@ -140,15 +140,15 @@ resource "aws_codebuild_project" "t223306781sit722week10_codebuild_deploy_projec
       name  = "AWS_DEFAULT_REGION"
       value = local.region
     }
-    #environment_variable {
-    #  name  = "AWS_DEFAULT_REGION"
-    #  value = "video-storage-${local.region}"
-    #}
+    environment_variable {
+      name  = "STORAGE_NAME"
+      value = "video-storage-${local.region}"
+    }
 
-    #environment_variable {
-    #  name  = "STORAGE_FOLDER"
-    #  value = "videos"
-    #}
+    environment_variable {
+      name  = "STORAGE_FOLDER_NAME"
+      value = "videos"
+    }
 
     environment_variable {
       name  = "AWS_CLUSTER_NAME"

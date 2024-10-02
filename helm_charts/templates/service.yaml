@@ -14,10 +14,6 @@ spec:
     - name: dashboard
       port: 15672
       protocol: TCP
-  {{ else if eq .name "mongodb" }}
-  ports:
-    - protocol: TCP
-      port: {{ .service.port }}
   {{ else }}
   ports:
     - port: {{ .service.port }}

@@ -35,10 +35,7 @@ services:
     service:
       type: ClusterIP
       port: 27017
-    auth:
-      username: mongo_user
-      password: mongo_password
-      database: history
+      targetPort: 27017
 
   - name: gateway
     image:
@@ -98,7 +95,7 @@ services:
       - name: RABBIT
         value: amqp://test:test@rabbit:5672
       - name: DBHOST
-        value: mongodb://mongodb:27017
+        value: mongodb://mongodb.default.svc.cluster.local:27017
       - name: DBNAME
         value: history
       - name: PORT
@@ -118,7 +115,7 @@ services:
         value: amqp://test:test@rabbit:5672
       - name: RABBITMQ_HOST
       - name: DBHOST
-        value: mongodb://mongodb:27017
+        value: mongodb://mongodb.default.svc.cluster.local:27017
       - name: DBNAME
         value: metadata
       - name: PORT
@@ -136,16 +133,16 @@ services:
     env:
       - name: PORT
         value: "4000"
-      - name: AWS_ACCESS_KEY_ID
+      - name: STORAGE_ACCESS_KEY
         value: ${AWS_ACCESS_KEY_ID}
-      - name: AWS_SECRET_ACCESS_KEY
+      - name: STORAGE_SECRET_ACCESS_KEY
         value: ${AWS_SECRET_ACCESS_KEY}
       - name: STORAGE_NAME
         value: ${STORAGE_NAME}
       - name: STORAGE_FOLDER_NAME
         value: ${STORAGE_FOLDER_NAME}
       - name: STORAGE_REGION
-        value: ${STORAGE_REGION}
+        value: ${AWS_DEFAULT_REGION}
         
 
 nodeSelector: {}

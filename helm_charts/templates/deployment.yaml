@@ -32,16 +32,6 @@ spec:
             - name: RABBITMQ_PASSWORD
               value: "{{ .auth.password }}"
           {{ else if eq .name "mongodb" }}
-          ports:
-            - containerPort: {{ .service.port }}
-              name: mongodb
-          env:
-            - name: MONGODB_ROOT_USERNAME
-              value: "{{ .auth.username }}"
-            - name: MONGODB_ROOT_PASSWORD
-              value: "{{ .auth.password }}"
-            - name: MONGODB_DATABASE
-              value: "{{ .auth.database }}"
           {{ else }}
           ports:
             - containerPort: {{ .service.targetPort }}
