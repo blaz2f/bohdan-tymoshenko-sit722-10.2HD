@@ -70,15 +70,15 @@ resource "aws_codebuild_project" "t223306781sit722week10_codebuild_project" {
       name  = "AWS_ACCOUNT_ID"
       value = local.account_id
     }
-    #  environment_variable {
-    #    name  = "AWS_ACCESS_KEY_ID"
-    #    value = local.access_key_id
-    #  }
+      environment_variable {
+        name  = "AWS_ACCESS_KEY_ID"
+        value = local.access_key_id
+      }
 
-    #   environment_variable {
-    #    name  = "AWS_SECRET_ACCESS_KEY"
-    #    value = local.secret_access_key
-    #  }
+       environment_variable {
+        name  = "AWS_SECRET_ACCESS_KEY"
+        value = local.secret_access_key
+      }
 
     environment_variable {
       name  = "IMAGE_REPO_NAME"
@@ -155,15 +155,15 @@ resource "aws_codebuild_project" "t223306781sit722week10_codebuild_deploy_projec
       value = var.eks_cluster_name
     }
 
-  #  environment_variable {
-  #    name  = "AWS_ACCESS_KEY_ID"
-  #    value = local.access_key_id
-  #  }
+    environment_variable {
+      name  = "AWS_ACCESS_KEY_ID"
+      value = local.access_key_id
+    }
 
-  #   environment_variable {
-  #    name  = "AWS_SECRET_ACCESS_KEY"
-  #    value = local.secret_access_key
-  #  }
+     environment_variable {
+      name  = "AWS_SECRET_ACCESS_KEY"
+      value = local.secret_access_key
+    }
 
     environment_variable {
       name  = "AWS_ACCOUNT_ID"
